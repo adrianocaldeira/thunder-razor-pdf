@@ -26,14 +26,14 @@ namespace Thunder.RazorPdf
         /// <param name="viewName"></param>
         public PdfResult(string viewName)
         {
-            if (string.IsNullOrEmpty(viewName)) throw new ArgumentNullException("viewName", "ViewName is null or empty");
+            if (string.IsNullOrEmpty(viewName)) throw new ArgumentNullException(nameof(viewName), "ViewName is null or empty");
 
             StyleSheets = new List<string>();
             Settings = new DocumentSetting();
             Download = true;
             ViewName = viewName;
             Model = null;
-            FileName = String.Concat(Guid.NewGuid().ToString("D").ToUpper(), ".pdf");
+            FileName = string.Concat(Guid.NewGuid().ToString("D").ToUpper(), ".pdf");
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Thunder.RazorPdf
             : this(viewName, model)
         {
             if (string.IsNullOrEmpty(fileName))
-                throw new ArgumentNullException("fileName", "File name is null or empty");
+                throw new ArgumentNullException(nameof(fileName), "File name is null or empty");
 
             FileName = fileName;
         }
@@ -94,15 +94,15 @@ namespace Thunder.RazorPdf
         /// <summary>
         /// Get view name
         /// </summary>
-        public string ViewName { get; private set; }
+        public string ViewName { get; }
         /// <summary>
         /// Get model
         /// </summary>
-        public object Model { get; private set; }
+        public object Model { get; }
         /// <summary>
         /// Get file name
         /// </summary>
-        public string FileName { get; private set; }
+        public string FileName { get; }
         /// <summary>
         /// Get or set style sheets
         /// </summary>
@@ -183,8 +183,8 @@ namespace Thunder.RazorPdf
 
                 if (!src.StartsWith("http://") && !src.StartsWith("https://"))
                 {
-                    img.Attributes["src"] = String.Concat(httpContext.Request.Url.Scheme, "://",
-                        httpContext.Request.Url.Authority, src);
+                    img.Attributes["src"] = string.Concat(httpContext.Request.Url?.Scheme, "://",
+                        httpContext.Request.Url?.Authority, src);
                 }
             }
 
